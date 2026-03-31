@@ -22,7 +22,7 @@ Oferecer uma ferramenta de **consulta ultrarrápida** para estudantes e desenvol
 Como é uma Single Page Application (SPA) pura, não precisa instalar pacotes (NPM) ou processos de build!
 1. Clone este repositório: `git clone https://github.com/SEU_USUARIO/tailwind-facil.git`
 2. Dê um duplo clique no arquivo `index.html` para abrir no seu navegador.
-3. abra o link: 
+3. abra o link: https://thailansousa.github.io/guia-tailwind/
 4. Comece a pesquisar suas classes favoritas!
 
 ## 🤝 Contribuições
