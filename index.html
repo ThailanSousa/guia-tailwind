@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tailwind CSS Cheat Sheet - Guia Rápido</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #020617;
+            background-image: radial-gradient(circle at 1px 1px, #1e293b 1px, transparent 0);
+            background-size: 32px 32px;
+        }
+
+        code, pre {
+            font-family: 'Fira Code', monospace;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(100%) scale(0.9); opacity: 0; }
+            to { transform: translateY(0) scale(1); opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { transform: translateY(0) scale(1); opacity: 1; }
+            to { transform: translateY(20px) scale(0.95); opacity: 0; }
+        }
+        .toast-enter {
+            animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .toast-exit {
+            animation: fadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="text-slate-300 h-screen flex overflow-hidden selection:bg-cyan-500/30 selection:text-cyan-200 antialiased">
+
+    <aside class="w-72 bg-slate-900/80 backdrop-blur-xl border-r border-slate-800 flex-col hidden md:flex h-full z-20 shadow-2xl relative">
+        <div class="p-6 border-b border-slate-800/50">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+                    <i class="ph-fill ph-wind text-white text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-100 tracking-tight">Tailwind Fácil</h1>
+                    <p class="text-xs text-cyan-400 font-medium">Guia de Consulta</p>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto p-4 space-y-1" id="nav-links">
+        </nav>
+        
+        <div class="p-4 border-t border-slate-800/50 text-xs text-center text-slate-500 font-medium">
+            Desenvolvido para a Comunidade
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full relative overflow-hidden">
+        
+        <header class="bg-slate-950/80 backdrop-blur-md z-10 border-b border-slate-800/80 p-4 sticky top-0 flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            <div class="flex items-center gap-2 md:hidden w-full">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center">
+                    <i class="ph-fill ph-wind text-white text-base"></i>
+                </div>
+                <h1 class="text-lg font-bold text-slate-100">Tailwind Fácil</h1>
+            </div>
+            
+            <div class="relative w-full max-w-xl mx-auto md:ml-auto md:mr-0 group">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none transition-colors group-focus-within:text-cyan-400 text-slate-500">
+                    <i class="ph ph-magnifying-glass text-lg"></i>
+                </div>
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    class="block w-full pl-11 pr-4 py-3 border border-slate-700/50 rounded-xl leading-5 bg-slate-900/50 text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500/50 focus:bg-slate-900 transition-all shadow-sm sm:text-sm" 
+                    placeholder="Pesquisar classe (ex: flex, m-4, text-center)..."
+                >
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-10 scroll-smooth" id="content-container">
+        </div>
+    </main>
+
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+    <script>
+        const tailwindData = [
+            {
+                id: 'espacamento',
+                icon: 'ph-arrows-out-cardinal',
+                title: 'Espaçamento (Margin & Padding)',
+                description: 'Classes utilitárias para controlar a margem e o preenchimento.',
+                items: [
+                    { prop: 'p-4', desc: 'Aplica padding igual em todos os lados (1rem = 16px).', code: 'class="p-4"' },
+                    { prop: 'px-4 / py-4', desc: 'Padding horizontal (eixo X) ou vertical (eixo Y).', code: 'class="px-4 py-2"' },
+                    { prop: 'pt- / pr- / pb- / pl-', desc: 'Padding específico: Top, Right, Bottom, Left.', code: 'class="pt-4 pb-2"' },
+                    { prop: 'm-4', desc: 'Aplica margin (externa) igual em todos os lados.', code: 'class="m-4"' },
+                    { prop: 'mx-auto', desc: 'Centra um elemento de bloco horizontalmente na página.', code: 'class="mx-auto"' },
+                    { prop: 'space-x-4', desc: 'Aplica espaçamento igual entre os elementos filhos.', code: 'class="space-x-4"' }
+                ]
+            },
+            {
+                id: 'tamanho',
+                icon: 'ph-bounding-box',
+                title: 'Tamanhos (Width & Height)',
+                description: 'Controlo preciso da largura e altura dos elementos.',
+                items: [
+                    { prop: 'w-full / h-full', desc: 'Ocupa 100% da largura ou altura do elemento pai.', code: 'class="w-full h-full"' },
+                    { prop: 'w-screen / h-screen', desc: 'Ocupa 100% da largura ou altura do ecrã (viewport).', code: 'class="w-screen h-screen"' },
+                    { prop: 'w-1/2', desc: 'Larguras em fração (50%). Também existe 1/3, 1/4, 2/5, etc.', code: 'class="w-1/2"' },
+                    { prop: 'max-w-md / max-w-7xl', desc: 'Limita a largura máxima. Excelente para contentores de texto.', code: 'class="max-w-3xl mx-auto"' }
+                ]
+            },
+            {
+                id: 'layout',
+                icon: 'ph-layout',
+                title: 'Display e Posicionamento',
+                description: 'A base da estrutura e o fluxo do layout HTML.',
+                items: [
+                    { prop: 'block / hidden', desc: 'Comportamento de bloco ou esconde completamente o elemento.', code: 'class="hidden md:block"' },
+                    { prop: 'relative / absolute', desc: 'Contexto de posicionamento (Absolute move-se com base no Relative).', code: 'class="relative absolute top-0"' },
+                    { prop: 'inset-0', desc: 'Abreviação para top-0 right-0 bottom-0 left-0 (preenche tudo).', code: 'class="absolute inset-0"' },
+                    { prop: 'z-10 / z-50', desc: 'Profundidade das camadas (quem fica à frente ou atrás).', code: 'class="z-50"' },
+                    { prop: 'overflow-hidden', desc: 'Corta e esconde o conteúdo que sai dos limites da caixa.', code: 'class="overflow-hidden"' }
+                ]
+            },
+            {
+                id: 'flexbox',
+                icon: 'ph-arrows-out-line-horizontal',
+                title: 'Flexbox',
+                description: 'A forma mais rápida de alinhar elementos lado a lado.',
+                items: [
+                    { prop: 'flex', desc: 'Ativa o Flexbox no contentor principal.', code: 'class="flex"' },
+                    { prop: 'flex-col', desc: 'Empilha os itens na vertical (em coluna).', code: 'class="flex flex-col"' },
+                    { prop: 'justify-between', desc: 'Afasta os itens para os extremos do eixo principal.', code: 'class="flex justify-between"' },
+                    { prop: 'items-center', desc: 'Centra os itens perfeitamente no eixo transversal.', code: 'class="flex items-center justify-center"' },
+                    { prop: 'gap-4', desc: 'Cria um espaçamento exato e limpo entre os itens do flex.', code: 'class="flex gap-4"' }
+                ]
+            },
+            {
+                id: 'grid',
+                icon: 'ph-grid-four',
+                title: 'CSS Grid',
+                description: 'Criação de grelhas bidimensionais complexas.',
+                items: [
+                    { prop: 'grid', desc: 'Ativa o modelo Grid no contentor.', code: 'class="grid"' },
+                    { prop: 'grid-cols-3', desc: 'Cria 3 colunas de larguras exatamente iguais.', code: 'class="grid grid-cols-1 md:grid-cols-3"' },
+                    { prop: 'col-span-2', desc: 'Faz com que um item ocupe o espaço de 2 colunas.', code: 'class="col-span-2"' },
+                    { prop: 'gap-6', desc: 'Define a "calha" (espaço) entre as linhas e colunas.', code: 'class="grid gap-6"' }
+                ]
+            },
+            {
+                id: 'tipografia',
+                icon: 'ph-text-aa',
+                title: 'Texto e Tipografia',
+                description: 'Estilização profunda de conteúdos de texto.',
+                items: [
+                    { prop: 'text-sm / text-2xl', desc: 'Tamanho da fonte, desde text-xs até text-9xl.', code: 'class="text-xl"' },
+                    { prop: 'font-bold / font-light', desc: 'Peso/Espessura da fonte escolhida.', code: 'class="font-semibold"' },
+                    { prop: 'text-slate-400', desc: 'Aplica a cor ao texto (suporta toda a paleta do Tailwind).', code: 'class="text-slate-400"' },
+                    { prop: 'text-center', desc: 'Alinha o texto ao centro do seu contentor.', code: 'class="text-center"' },
+                    { prop: 'leading-relaxed', desc: 'Aumenta o espaçamento entre as linhas (line-height) para melhor leitura.', code: 'class="leading-relaxed"' }
+                ]
+            },
+            {
+                id: 'cores-fundos',
+                icon: 'ph-paint-bucket',
+                title: 'Cores e Fundos',
+                description: 'Fundos sólidos e gradientes vibrantes.',
+                items: [
+                    { prop: 'bg-slate-900', desc: 'Aplica uma cor sólida ao fundo do elemento.', code: 'class="bg-slate-900"' },
+                    { prop: 'bg-gradient-to-r', desc: 'Inicia um gradiente com direção para a direita (to right).', code: 'class="bg-gradient-to-r from-cyan-500 to-blue-500"' },
+                    { prop: 'from- / via- / to-', desc: 'As cores de início, meio e fim de um gradiente.', code: 'class="from-indigo-500 to-purple-500"' },
+                    { prop: 'bg-cover bg-center', desc: 'Ajusta uma imagem de fundo para cobrir todo o espaço de forma centrada.', code: 'class="bg-[url(\'/img.jpg\')] bg-cover bg-center"' }
+                ]
+            },
+            {
+                id: 'bordas',
+                icon: 'ph-square',
+                title: 'Bordas e Arredondamento',
+                description: 'Delimitação visual de componentes.',
+                items: [
+                    { prop: 'border / border-2', desc: 'Adiciona uma linha de borda e define a sua espessura.', code: 'class="border-2 border-slate-700"' },
+                    { prop: 'rounded-lg / rounded-full', desc: 'Arredonda os cantos. "full" cria círculos perfeitos.', code: 'class="rounded-2xl"' },
+                    { prop: 'ring-2', desc: 'Cria um anel/contorno (ótimo para estados de focus ou botões ativos).', code: 'class="ring-2 ring-cyan-500 ring-offset-2"' }
+                ]
+            },
+            {
+                id: 'efeitos',
+                icon: 'ph-magic-wand',
+                title: 'Efeitos e Filtros (Glassmorphism)',
+                description: 'Sombras, transparências e filtros avançados.',
+                items: [
+                    { prop: 'shadow-md / shadow-xl', desc: 'Aplica uma sombra exterior para dar noção de elevação e profundidade.', code: 'class="shadow-xl shadow-cyan-500/10"' },
+                    { prop: 'opacity-50', desc: 'Define a opacidade do elemento inteiro (0 a 100).', code: 'class="opacity-80"' },
+                    { prop: 'backdrop-blur-md', desc: 'O famoso efeito "Glassmorphism" (vidro fosco). Desfoca o que está por trás.', code: 'class="bg-slate-900/50 backdrop-blur-md"' }
+                ]
+            },
+            {
+                id: 'animacoes',
+                icon: 'ph-film-strip',
+                title: 'Transições e Animações',
+                description: 'Interações suaves sem escrever CSS personalizado.',
+                items: [
+                    { prop: 'transition-all', desc: 'Permite que qualquer mudança de estado (ex: hover) seja animada suavemente.', code: 'class="transition-all duration-300 ease-in-out"' },
+                    { prop: 'hover:-translate-y-1', desc: 'Move o elemento ligeiramente para cima ao passar o rato (efeito de flutuação).', code: 'class="transition-transform hover:-translate-y-1"' },
+                    { prop: 'animate-spin', desc: 'Animação nativa de rotação contínua (perfeito para ícones de loading).', code: 'class="animate-spin"' },
+                    { prop: 'animate-pulse', desc: 'Faz o elemento piscar suavemente (muito usado no carregamento de esqueletos).', code: 'class="animate-pulse"' }
+                ]
+            },
+            {
+                id: 'modificadores',
+                icon: 'ph-cursor-click',
+                title: 'Modificadores (Hover, Focus, Dark)',
+                description: 'Gatilhos condicionais para mudar o aspeto.',
+                items: [
+                    { prop: 'hover:', desc: 'Aplica a classe que se segue apenas quando o rato está sobre o elemento.', code: 'class="bg-slate-800 hover:bg-slate-700"' },
+                    { prop: 'focus:', desc: 'Aplica a classe quando o elemento ganha foco (clique num input ou navegação via Tab).', code: 'class="focus:border-cyan-500 focus:outline-none"' },
+                    { prop: 'group-hover:', desc: 'Adiciona "group" no pai e "group-hover:" no filho. O filho reage quando o pai sofre hover.', code: 'class="group-hover:text-cyan-400"' },
+                    { prop: 'dark:', desc: 'Aplica a classe apenas se o tema Escuro estiver ativado.', code: 'class="bg-white dark:bg-slate-900"' }
+                ]
+            },
+            {
+                id: 'responsividade',
+                icon: 'ph-device-mobile',
+                title: 'Responsividade (Breakpoints)',
+                description: 'Design adaptável a qualquer ecrã, do telemóvel ao monitor 4K.',
+                items: [
+                    { prop: 'sm:', desc: 'Aplica a partir de ecrãs pequenos (640px e superiores).', code: 'class="text-sm sm:text-base"' },
+                    { prop: 'md:', desc: 'Aplica a partir de tablets (768px e superiores). Ponto de quebra mais comum.', code: 'class="w-full md:w-1/2"' },
+                    { prop: 'lg: / xl:', desc: 'Aplica em computadores portáteis e desktops de grande dimensão.', code: 'class="grid-cols-1 lg:grid-cols-3"' }
+                ]
+            }
+        ];
+
+        const navLinksContainer = document.getElementById('nav-links');
+        const contentContainer = document.getElementById('content-container');
+        const searchInput = document.getElementById('search-input');
+        const toastContainer = document.getElementById('toast-container');
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'bg-slate-800 border-l-4 border-emerald-500 text-slate-100 px-4 py-3 rounded shadow-2xl shadow-black/50 flex items-center gap-3 toast-enter min-w-[250px]';
+            toast.innerHTML = `
+                <i class="ph-fill ph-check-circle text-emerald-400 text-xl"></i>
+                <span class="text-sm font-semibold tracking-wide">${message}</span>
+            `;
+            
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('toast-enter');
+                toast.classList.add('toast-exit');
+                setTimeout(() => toast.remove(), 300); 
+            }, 2500);
+        }
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed'; 
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            
+            try {
+                document.execCommand('copy');
+                showToast('Classe copiada com sucesso!');
+            } catch (err) {
+                console.error('Erro ao copiar:', err);
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        }
+
+        function renderSidebar() {
+            navLinksContainer.innerHTML = tailwindData.map((category, index) => `
+                <a href="#${category.id}" class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-cyan-300 hover:bg-slate-800/50 transition-all duration-200 group">
+                    <span class="w-7 h-7 rounded-lg flex items-center justify-center bg-slate-900 border border-slate-700/50 group-hover:border-cyan-500/30 group-hover:bg-cyan-500/10 transition-colors">
+                        <i class="ph ${category.icon} group-hover:text-cyan-400"></i>
+                    </span>
+                    <span class="text-sm font-medium">${category.title.replace(/^[^\s]+\s\d+\.\s/, '')}</span>
+                </a>
+            `).join('');
+        }
+
+        function renderContent(dataToRender) {
+            if (dataToRender.length === 0) {
+                contentContainer.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-32 text-slate-500">
+                        <div class="w-20 h-20 bg-slate-800/50 rounded-full flex items-center justify-center mb-6 border border-slate-700/50">
+                            <i class="ph ph-magnifying-glass text-4xl text-slate-600"></i>
+                        </div>
+                        <h2 class="text-xl font-bold text-slate-300">Nenhum resultado encontrado</h2>
+                        <p class="text-sm mt-2">Tenta procurar por outra palavra ou propriedade.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            contentContainer.innerHTML = dataToRender.map(category => `
+                <section id="${category.id}" class="mb-14 scroll-mt-28">
+                    <div class="mb-6 pb-2">
+                        <h2 class="text-2xl font-bold text-slate-100 flex items-center gap-2">
+                            <i class="ph-fill ${category.icon} text-cyan-500"></i>
+                            ${category.title}
+                        </h2>
+                        <p class="text-slate-400 mt-2 text-sm">${category.description}</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                        ${category.items.map(item => `
+                            <div class="bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden hover:border-cyan-500/40 hover:bg-slate-800/80 transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.1)] hover:-translate-y-1 group flex flex-col relative">
+                                
+                                <div class="p-5 flex-1 flex flex-col">
+                                    <div>
+                                        <h3 class="font-mono text-cyan-400 font-semibold text-sm bg-cyan-500/10 px-3 py-1.5 rounded-lg inline-block border border-cyan-500/20 shadow-sm">
+                                            ${item.prop}
+                                        </h3>
+                                    </div>
+                                    <p class="text-slate-400 text-sm mt-4 leading-relaxed flex-1">${item.desc}</p>
+                                </div>
+
+                                <div class="bg-slate-900/90 p-4 border-t border-slate-700/50 mt-auto relative flex items-center justify-between">
+                                    <pre class="text-sm text-emerald-400 overflow-x-auto pr-12 w-full scrollbar-hide"><code>${item.code}</code></pre>
+                                    
+                                    <button 
+                                        onclick="copyToClipboard(\`${item.code.replace(/"/g, '&quot;')}\`)"
+                                        class="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-lg text-slate-500 hover:text-cyan-400 hover:bg-cyan-500/10 transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500/50 opacity-0 group-hover:opacity-100 md:opacity-0 md:group-hover:opacity-100 opacity-100"
+                                        title="Copiar Código"
+                                    >
+                                        <i class="ph ph-copy text-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </section>
+            `).join('');
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                renderContent(tailwindData);
+                return;
+            }
+
+            const filteredData = tailwindData.map(category => {
+                const matchingItems = category.items.filter(item => 
+                    item.prop.toLowerCase().includes(searchTerm) || 
+                    item.desc.toLowerCase().includes(searchTerm) ||
+                    item.code.toLowerCase().includes(searchTerm)
+                );
+                
+                const categoryMatch = category.title.toLowerCase().includes(searchTerm);
+
+                if (categoryMatch) {
+                    return category;
+                } else if (matchingItems.length > 0) {
+                    return { ...category, items: matchingItems };
+                }
+                
+                return null;
+            }).filter(category => category !== null);
+
+            renderContent(filteredData);
+        });
+
+        renderSidebar();
+        renderContent(tailwindData);
+    </script>
+</body>
+</html>
